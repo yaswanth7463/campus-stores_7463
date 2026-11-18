@@ -1,371 +1,1452 @@
+/* ==========================================================================
+   Campus Stores · Media Equipment Lending Counter
+   Styles & Design System
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS Reset & Document Roots
+   -------------------------------------------------------------------------- */
 :root {
   color-scheme: light dark;
-  background: light-dark(#f0f2f1, #191e21);
+  background: light-dark(#edf1f5, #0b0f14);
 }
+
 body {
   margin: 0;
-  padding: clamp(10px, 3vw, 44px) clamp(6px, 3vw, 36px);
+  padding: clamp(10px, 3vw, 36px) clamp(8px, 3vw, 28px);
+  color: light-dark(#0f172a, #f1f5f9);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
 body > main {
-  max-width: 1060px;
+  max-width: 1080px;
   margin: 0 auto;
 }
+
 .icon-library {
   position: absolute;
+  width: 0;
+  height: 0;
   overflow: hidden;
   pointer-events: none;
 }
+
 .store-icon {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: -0.15em;
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
+  flex-shrink: 0;
 }
 
+/* --------------------------------------------------------------------------
+   2. Design Tokens (#campus-stores)
+   -------------------------------------------------------------------------- */
 #campus-stores {
   color-scheme: light dark;
-  --ink: light-dark(#202c35, #ecf0f0);
-  --quiet: light-dark(#526370, #b9c5cb);
-  --paper: light-dark(#fff, #232a30);
-  --desk: light-dark(#f3f5f5, #1d2328);
-  --nav: light-dark(#eaf0f1, #29333b);
-  --sel: light-dark(#233e4c, #c5dce4);
-  --inv: light-dark(#fff, #172b34);
-  --line: light-dark(#d2dcdf, #475158);
-  --memo: light-dark(#fff3d8, #3d3426);
-  --memotxt: light-dark(#65491e, #ead4a5);
-  --mark: light-dark(#bd502f, #f2a585);
-  --ok: light-dark(#e3f1e8, #2d4838);
-  --oktxt: light-dark(#25523d, #bedac8);
-  background: var(--paper);
-  color: var(--ink);
-  font:
-    14px/1.48 "Inter",
-    "Arial",
-    sans-serif;
-  border: 1px solid var(--line);
-  border-radius: 14px;
+
+  /* Spacing Scale (4, 8, 12, 16, 20, 24, 32px) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+
+  /* Typography Scale */
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "Cascadia Code", "Segoe UI Mono", Menlo, Consolas, "Courier New", monospace;
+  --text-2xs: 11px;
+  --text-xs: 12px;
+  --text-sm: 13px;
+  --text-base: 14px;
+  --text-md: 16px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+
+  /* Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 9px;
+  --radius-lg: 14px;
+  --radius-full: 9999px;
+
+  /* Shadows / Elevations */
+  --shadow-sm: 0 1px 2px light-dark(rgba(15, 23, 42, 0.05), rgba(0, 0, 0, 0.25));
+  --shadow-md: 0 4px 6px -1px light-dark(rgba(15, 23, 42, 0.08), rgba(0, 0, 0, 0.35)),
+               0 2px 4px -2px light-dark(rgba(15, 23, 42, 0.05), rgba(0, 0, 0, 0.25));
+  --shadow-lg: 0 10px 15px -3px light-dark(rgba(15, 23, 42, 0.1), rgba(0, 0, 0, 0.45)),
+               0 4px 6px -4px light-dark(rgba(15, 23, 42, 0.06), rgba(0, 0, 0, 0.3));
+
+  /* Core Surfaces */
+  --bg-surface: light-dark(#ffffff, #151b23);
+  --bg-subtle: light-dark(#f8fafc, #1a222c);
+  --bg-sunken: light-dark(#eef2f6, #10151c);
+  --bg-overlay: light-dark(#ffffff, #1f2732);
+  --bg-banner: light-dark(#fef3c7, #2c2009);
+  --text-banner: light-dark(#78350f, #fde68a);
+
+  /* Borders */
+  --border-subtle: light-dark(#e2e8f0, #26303d);
+  --border-default: light-dark(#cbd5e1, #374352);
+  --border-strong: light-dark(#94a3b8, #556579);
+
+  /* Typography Colors */
+  --text-main: light-dark(#0f172a, #f1f5f9);
+  --text-muted: light-dark(#475569, #94a3b8);
+  --text-tertiary: light-dark(#64748b, #cbd5e1);
+  --text-inverse: light-dark(#ffffff, #090d16);
+
+  /* Brand / Primary Accent (Equipment Desk Steel Navy) */
+  --accent-base: light-dark(#1e3a8a, #3b82f6);
+  --accent-hover: light-dark(#172554, #60a5fa);
+  --accent-subtle: light-dark(#eff6ff, #172554);
+  --accent-text: light-dark(#1e3a8a, #93c5fd);
+  --accent-border: light-dark(#bfdbfe, #1e40af);
+
+  /* Semantic State: Danger / Overdue */
+  --danger-bg: light-dark(#fef2f2, #381216);
+  --danger-border: light-dark(#fca5a5, #852229);
+  --danger-text: light-dark(#991b1b, #fca5a5);
+  --danger-badge-bg: light-dark(#fee2e2, #4c1117);
+
+  /* Semantic State: Warn / Due Soon */
+  --warn-bg: light-dark(#fffbeb, #332208);
+  --warn-border: light-dark(#fde68a, #78350f);
+  --warn-text: light-dark(#b45309, #fcd34d);
+
+  /* Semantic State: OK / Shelf Available / Returned */
+  --ok-bg: light-dark(#f0fdf4, #0b2918);
+  --ok-border: light-dark(#bbf7d0, #166534);
+  --ok-text: light-dark(#15803d, #86efac);
+
+  /* Semantic State: Info / Request */
+  --info-bg: light-dark(#f0f9ff, #0c2738);
+  --info-border: light-dark(#bae6fd, #0369a1);
+  --info-text: light-dark(#0369a1, #7dd3fc);
+
+  /* Physical Bins: Shelf Label Aesthetic */
+  --bin-bg: light-dark(#1e293b, #f1f5f9);
+  --bin-text: light-dark(#ffffff, #0f172a);
+  --bin-border: light-dark(#0f172a, #ffffff);
+
+  /* Component Container Setup */
+  background: var(--bg-surface);
+  color: var(--text-main);
+  font: var(--text-base)/1.5 var(--font-sans);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
   overflow: hidden;
   container-type: inline-size;
 }
+
 #campus-stores * {
   box-sizing: border-box;
 }
+
 #campus-stores [hidden] {
   display: none !important;
 }
+
 #campus-stores h1,
 #campus-stores h2,
 #campus-stores h3,
+#campus-stores h4,
 #campus-stores p {
   margin: 0;
 }
+
 #campus-stores h1 {
-  font:
-    600 clamp(24px, 4cqw, 33px)/1.13 "Archivo",
-    system-ui,
-    sans-serif;
-  letter-spacing: -0.05em;
-}
-#campus-stores h2 {
-  font-size: 20px;
+  font-size: clamp(20px, 3.5cqw, 26px);
+  font-weight: 700;
   letter-spacing: -0.03em;
+  line-height: 1.15;
 }
+
+#campus-stores h2 {
+  font-size: var(--text-lg);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
 #campus-stores h3 {
-  font-size: 15px;
+  font-size: var(--text-md);
+  font-weight: 600;
 }
-#campus-stores .muted,
+
+#campus-stores .muted {
+  color: var(--text-muted);
+}
+
 #campus-stores small {
-  color: var(--quiet);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
 }
-#campus-stores small {
-  font-size: 12px;
-}
+
+/* --------------------------------------------------------------------------
+   3. Header, Candidate Brief & Masthead
+   -------------------------------------------------------------------------- */
 #campus-stores .examstrip {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
-  gap: 4px 16px;
+  gap: var(--space-2) var(--space-4);
   flex-wrap: wrap;
-  background: var(--desk);
-  border-bottom: 1px solid var(--line);
-  padding: 9px 18px;
-  color: var(--quiet);
-  font-size: 13px;
+  background: var(--bg-sunken);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: var(--space-2) var(--space-5);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
 }
+
 #campus-stores details[open] {
   width: 100%;
 }
+
 #campus-stores summary {
-  font-weight: 650;
-  color: var(--sel);
+  font-weight: 600;
+  color: var(--accent-base);
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
 }
+
 #campus-stores .briefcopy {
-  color: var(--ink);
-  max-width: 79ch;
-  padding: 12px 0 5px;
+  color: var(--text-main);
+  max-width: 80ch;
+  padding: var(--space-3) 0 var(--space-2);
   display: grid;
-  gap: 8px;
+  gap: var(--space-2);
+  line-height: 1.5;
 }
-#campus-stores .mast,
-#campus-stores .brandblock,
-#campus-stores .shift,
-#campus-stores .sectionhead,
-#campus-stores .statusbar,
-#campus-stores .buttons {
+
+#campus-stores .mast {
   display: flex;
   align-items: center;
-  gap: 10px;
-}
-#campus-stores .mast {
-  padding: 17px 20px;
   justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
   flex-wrap: wrap;
+  gap: var(--space-3);
 }
+
+#campus-stores .brandblock {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 #campus-stores .brandmark {
-  background: var(--mark);
-  color: var(--inv);
+  background: var(--accent-base);
+  color: var(--text-inverse);
   width: 40px;
   height: 40px;
   display: grid;
   place-items: center;
-  border-radius: 9px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
 }
+
 #campus-stores .brandmark svg {
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
 }
+
 #campus-stores .clock {
   display: grid;
   text-align: right;
+  background: var(--bg-subtle);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
 }
+
+#campus-stores .clock small {
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: var(--text-2xs);
+  font-weight: 600;
+}
+
 #campus-stores .clock strong {
   font-variant-numeric: tabular-nums;
+  font-family: var(--font-mono);
+  font-size: var(--text-base);
+  color: var(--text-main);
 }
+
+/* --------------------------------------------------------------------------
+   4. Shift Timeline Stepper & Context Banner
+   -------------------------------------------------------------------------- */
 #campus-stores .shift {
-  background: var(--memo);
-  color: var(--memotxt);
-  padding: 12px 19px;
-  justify-content: space-between;
-  border-block: 1px solid var(--line);
+  background: var(--bg-banner);
+  color: var(--text-banner);
+  border-bottom: 1px solid var(--border-default);
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
 }
-#campus-stores .shift div {
-  max-width: 67ch;
+
+/* 3-Step Timeline Stepper */
+#campus-stores .shift-timeline {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  overflow-x: auto;
+  padding-bottom: 2px;
 }
-#campus-stores .shift b {
-  font-size: 13px;
+
+#campus-stores .shift-step {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  white-space: nowrap;
+  background: light-dark(rgba(0,0,0,0.06), rgba(255,255,255,0.08));
+  color: var(--text-banner);
+  border: 1px solid transparent;
 }
-#campus-stores .shift button {
-  background: transparent;
-  border-color: var(--memotxt);
-  color: var(--memotxt);
+
+#campus-stores .shift-step.active {
+  background: light-dark(#78350f, #fef3c7);
+  color: light-dark(#ffffff, #451a03);
+  border-color: light-dark(#451a03, #ffffff);
+  box-shadow: var(--shadow-sm);
+}
+
+#campus-stores .shift-step.past {
+  opacity: 0.75;
+}
+
+#campus-stores .shift-step-divider {
+  width: 14px;
+  height: 2px;
+  background: currentColor;
+  opacity: 0.35;
   flex-shrink: 0;
 }
+
+#campus-stores .shift-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+#campus-stores .shift-text-block {
+  max-width: 72ch;
+}
+
+#campus-stores .shift-text-block b {
+  display: block;
+  font-size: var(--text-sm);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+
+#campus-stores .shift-text-block p {
+  font-size: var(--text-xs);
+  line-height: 1.45;
+  opacity: 0.95;
+}
+
+#campus-stores .shift-advance-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: light-dark(#78350f, #fef3c7);
+  color: light-dark(#ffffff, #451a03);
+  border: 1px solid light-dark(#451a03, #fde68a);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 150ms ease;
+  box-shadow: var(--shadow-sm);
+}
+
+#campus-stores .shift-advance-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* --------------------------------------------------------------------------
+   5. Persistent "Outstanding Now" Status Strip
+   -------------------------------------------------------------------------- */
+#campus-stores .outstanding-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5);
+  background: var(--bg-sunken);
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: var(--text-xs);
+  flex-wrap: wrap;
+}
+
+#campus-stores .strip-metrics {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+}
+
+#campus-stores .strip-metric-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  font-weight: 600;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  color: var(--text-main);
+}
+
+#campus-stores .strip-metric-pill.has-overdue {
+  background: var(--danger-badge-bg);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+  animation: pulse-border 2s infinite ease-in-out;
+}
+
+@keyframes pulse-border {
+  0%, 100% { border-color: var(--danger-border); }
+  50% { border-color: var(--danger-text); }
+}
+
+#campus-stores .strip-chips {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+#campus-stores .strip-loan-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px 7px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  font-size: var(--text-2xs);
+  color: var(--text-main);
+  text-decoration: none;
+  cursor: pointer;
+}
+
+#campus-stores .strip-loan-chip:hover {
+  border-color: var(--accent-base);
+}
+
+#campus-stores .strip-loan-chip.chip-overdue {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  font-weight: 600;
+}
+
+/* --------------------------------------------------------------------------
+   6. Shell & Navigation
+   -------------------------------------------------------------------------- */
+#campus-stores .shell {
+  display: grid;
+  grid-template-columns: 180px minmax(0, 1fr);
+  min-height: 480px;
+  background: var(--bg-surface);
+}
+
+#campus-stores nav {
+  background: var(--bg-sunken);
+  border-right: 1px solid var(--border-subtle);
+  padding: var(--space-3) var(--space-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+#campus-stores nav button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+#campus-stores nav button:hover {
+  background: light-dark(#e2e8f0, #202834);
+  color: var(--text-main);
+}
+
+#campus-stores nav button[aria-pressed="true"] {
+  background: var(--accent-base);
+  color: var(--text-inverse);
+  font-weight: 650;
+  box-shadow: var(--shadow-sm);
+}
+
+#campus-stores nav button .nav-title-group {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+#campus-stores nav button .nav-badge {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  background: light-dark(rgba(0,0,0,0.08), rgba(255,255,255,0.15));
+  color: inherit;
+}
+
+#campus-stores nav button[aria-pressed="true"] .nav-badge {
+  background: light-dark(rgba(255,255,255,0.25), rgba(0,0,0,0.3));
+  color: var(--text-inverse);
+}
+
+#campus-stores nav button .nav-badge.alert-badge {
+  background: var(--danger-badge-bg);
+  color: var(--danger-text);
+  border: 1px solid var(--danger-border);
+}
+
+#campus-stores .page {
+  padding: var(--space-5);
+  min-width: 0;
+  outline: none;
+  background: var(--bg-surface);
+}
+
+/* --------------------------------------------------------------------------
+   7. Form Controls & Buttons
+   -------------------------------------------------------------------------- */
 #campus-stores button,
 #campus-stores select,
 #campus-stores input,
 #campus-stores textarea {
   font: inherit;
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--paper);
+  color: var(--text-main);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-sm);
+  padding: 7px 10px;
   min-width: 0;
-  padding: 7px 9px;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
 }
-#campus-stores button {
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-}
-#campus-stores button:hover {
-  border-color: var(--sel);
-}
-#campus-stores .primary {
-  background: var(--sel);
-  color: var(--inv);
-  border-color: var(--sel);
-}
+
 #campus-stores :is(button, input, textarea, select, summary):focus-visible {
-  outline: 3px solid var(--mark);
+  outline: 2px solid var(--accent-base);
   outline-offset: 2px;
 }
-#campus-stores .shell {
-  display: grid;
-  grid-template-columns: 155px minmax(0, 1fr);
-  min-height: 315px;
+
+#campus-stores button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
 }
-#campus-stores nav {
-  background: var(--nav);
-  border-right: 1px solid var(--line);
-  padding: 12px 8px;
+
+#campus-stores button:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  background: var(--bg-subtle);
+}
+
+#campus-stores button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Button Variants */
+#campus-stores .primary,
+#campus-stores .btn-primary {
+  background: var(--accent-base);
+  color: var(--text-inverse);
+  border-color: var(--accent-base);
+}
+
+#campus-stores .primary:hover:not(:disabled),
+#campus-stores .btn-primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: var(--text-inverse);
+}
+
+#campus-stores .btn-secondary {
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border-color: var(--border-default);
+}
+
+#campus-stores .btn-danger {
+  background: var(--danger-bg);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+}
+
+#campus-stores .btn-danger:hover:not(:disabled) {
+  background: var(--danger-badge-bg);
+  border-color: var(--danger-text);
+}
+
+#campus-stores .btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-muted);
+}
+
+#campus-stores .btn-ghost:hover:not(:disabled) {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+#campus-stores .btn-sm {
+  font-size: var(--text-xs);
+  padding: 4px 8px;
+}
+
+/* --------------------------------------------------------------------------
+   8. Section Heads, Filters, Badges & Labels
+   -------------------------------------------------------------------------- */
+#campus-stores .sectionhead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+}
+
+#campus-stores .sectionhead h2 {
+  color: var(--text-main);
+}
+
+#campus-stores .sectionhead small {
+  display: block;
+  margin-top: 2px;
+  color: var(--text-muted);
+}
+
+#campus-stores .buttons {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+#campus-stores .buttons button[aria-pressed="true"] {
+  background: var(--accent-base);
+  color: var(--text-inverse);
+  border-color: var(--accent-base);
+}
+
+#campus-stores .buttons label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+/* Tags & Badges */
+#campus-stores .tag,
+#campus-stores .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+
+#campus-stores .badge-ok,
+#campus-stores .tag.good {
+  background: var(--ok-bg);
+  color: var(--ok-text);
+  border-color: var(--ok-border);
+}
+
+#campus-stores .badge-danger,
+#campus-stores .tag.danger {
+  background: var(--danger-badge-bg);
+  color: var(--danger-text);
+  border-color: var(--danger-border);
+}
+
+#campus-stores .badge-warn,
+#campus-stores .tag.warn {
+  background: var(--warn-bg);
+  color: var(--warn-text);
+  border-color: var(--warn-border);
+}
+
+#campus-stores .badge-info,
+#campus-stores .tag.info {
+  background: var(--info-bg);
+  color: var(--info-text);
+  border-color: var(--info-border);
+}
+
+/* Shelf Bin Label Chips */
+#campus-stores .bin-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--bin-bg);
+  color: var(--bin-text);
+  border: 1px solid var(--bin-border);
+  box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+}
+
+#campus-stores .bin-chip.workshop {
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+  border-color: var(--border-default);
+}
+
+/* --------------------------------------------------------------------------
+   9. Physical Equipment Desk Tickets / Slips (.loan-ticket)
+   -------------------------------------------------------------------------- */
+#campus-stores .loan-ticket-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+#campus-stores .loan-ticket {
+  display: grid;
+  grid-template-columns: 90px 1fr auto;
+  align-items: stretch;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  position: relative;
+  transition: all 180ms ease;
+}
+
+#campus-stores .loan-ticket:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+#campus-stores .loan-ticket.is-overdue {
+  border-color: var(--danger-border);
+  background: light-dark(#fffdfd, #1c1417);
+}
+
+#campus-stores .loan-ticket.is-returned {
+  opacity: 0.8;
+  background: var(--bg-subtle);
+  border-style: dashed;
+}
+
+/* Ticket Stub (Left Side with Monospace Slip #) */
+#campus-stores .ticket-stub {
+  background: var(--bg-sunken);
+  border-right: 1px dashed var(--border-default);
+  padding: var(--space-3) var(--space-2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 2px;
+}
+
+#campus-stores .ticket-number {
+  font-family: var(--font-mono);
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+#campus-stores .ticket-req-code,
+#campus-stores .ticket-req-btn {
+  font-family: var(--font-mono);
+  font-size: var(--text-2xs);
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  padding: 1px 5px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 150ms ease;
+}
+
+#campus-stores .ticket-req-btn:hover {
+  background: var(--accent-subtle);
+  color: var(--accent-base);
+  border-color: var(--accent-border);
+}
+
+/* Ticket Body */
+#campus-stores .ticket-body {
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+#campus-stores .ticket-primary-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+#campus-stores .ticket-asset-id {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--text-main);
+}
+
+#campus-stores .ticket-asset-name {
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--text-main);
+}
+
+#campus-stores .ticket-model-name {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+#campus-stores .ticket-holder-line {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+#campus-stores .ticket-holder-line strong {
+  color: var(--text-main);
+}
+
+#campus-stores .ticket-reassigned-flag {
+  font-size: var(--text-2xs);
+  background: var(--info-bg);
+  color: var(--info-text);
+  border: 1px solid var(--info-border);
+  padding: 1px 5px;
+  border-radius: var(--radius-xs);
+  font-weight: 600;
+}
+
+#campus-stores .ticket-note-callout {
+  margin-top: 4px;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-sunken);
+  border-left: 2px solid var(--accent-base);
+  font-size: var(--text-xs);
+  color: var(--text-main);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+#campus-stores .ticket-note-callout em {
+  font-style: italic;
+}
+
+/* Ticket Actions (Right Side) */
+#campus-stores .ticket-actions {
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: var(--space-2);
+  border-left: 1px solid var(--border-subtle);
+  background: light-dark(rgba(0,0,0,0.01), rgba(255,255,255,0.01));
+}
+
+/* --------------------------------------------------------------------------
+   10. Requests View & Batch Issuing Kit Builder
+   -------------------------------------------------------------------------- */
+#campus-stores .request-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+#campus-stores .request-card {
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-sm);
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  transition: all 150ms ease;
+}
+
+#campus-stores .request-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-md);
+}
+
+#campus-stores .request-card-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+#campus-stores .request-id-badge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-default);
+}
+
+#campus-stores .request-card h3 {
+  font-size: var(--text-md);
+  color: var(--text-main);
+}
+
+#campus-stores .request-meta-line {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+
+#campus-stores .request-items-summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+}
+
+#campus-stores .item-chip {
+  font-size: var(--text-2xs);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+}
+
+/* Request Detail View & Batch Issue Form */
+#campus-stores .request-detail-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: var(--space-4) var(--space-5);
+  margin-top: var(--space-3);
+  display: grid;
+  gap: var(--space-4);
+}
+
+#campus-stores .request-callout {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--bg-sunken);
+  border-left: 3px solid var(--accent-base);
+  font-size: var(--text-sm);
+  display: grid;
+  gap: 4px;
+}
+
+#campus-stores .kit-builder {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: grid;
+  gap: var(--space-4);
+}
+
+#campus-stores .kit-item-row {
+  display: grid;
+  grid-template-columns: 180px 1fr auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+#campus-stores .kit-item-row:last-child {
+  border-bottom: none;
+}
+
+#campus-stores .pick-slip-summary {
+  background: light-dark(#fefce8, #2a2408);
+  border: 1px solid light-dark(#fef08a, #713f12);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  flex-wrap: wrap;
+  font-size: var(--text-xs);
+  color: light-dark(#854d0e, #fef08a);
+}
+
+#campus-stores .walk-order {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  flex-wrap: wrap;
+}
+
+#campus-stores .walk-order svg {
+  color: var(--accent-base);
+}
+
+/* --------------------------------------------------------------------------
+   11. Inventory & General Row Styles
+   -------------------------------------------------------------------------- */
+#campus-stores .inventory-table {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+#campus-stores .row {
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  transition: all 150ms ease;
+}
+
+#campus-stores .row:hover {
+  border-color: var(--border-default);
+  background: var(--bg-subtle);
+}
+
+#campus-stores .row-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+#campus-stores .row-details strong {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--text-main);
+}
+
+#campus-stores .row-details small {
+  display: block;
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+#campus-stores .row-meta-badge {
+  font-size: var(--text-2xs);
+  padding: 2px 6px;
+  border-radius: var(--radius-xs);
+  background: var(--bg-sunken);
+  color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   12. Desk Book & Modal / Drawers
+   -------------------------------------------------------------------------- */
+#campus-stores .record {
+  margin-top: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-subtle);
+  border-left: 3px solid var(--accent-base);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  border-top: 1px solid var(--border-subtle);
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+#campus-stores .record h3 {
+  font-size: var(--text-sm);
+  margin-top: 2px;
+}
+
+#campus-stores .record p {
+  margin-top: 4px;
+  font-size: var(--text-sm);
+  line-height: 1.45;
+}
+
+#campus-stores .quick-chips {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  flex-wrap: wrap;
+  margin: var(--space-2) 0;
+}
+
+#campus-stores .quick-chip-btn {
+  font-size: var(--text-2xs);
+  padding: 3px 8px;
+  border-radius: var(--radius-full);
+  background: var(--bg-sunken);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+#campus-stores .quick-chip-btn:hover {
+  background: var(--accent-subtle);
+  color: var(--accent-base);
+  border-color: var(--accent-border);
+}
+
+/* Modal / Inline Drawer for Reassign & Notes */
+#campus-stores .reassign-drawer {
+  background: var(--bg-surface);
+  border: 2px solid var(--accent-base);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-4);
+  margin: var(--space-3) 0;
+  animation: slide-in 200ms ease;
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+#campus-stores .form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
+}
+
+#campus-stores .form label {
+  font-size: var(--text-xs);
+  font-weight: 600;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
-#campus-stores nav button {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  text-align: left;
-  border: 1px solid transparent;
-  background: transparent;
-  font-weight: 500;
-}
-#campus-stores nav button[aria-pressed="true"] {
-  background: var(--sel);
-  color: var(--inv);
-}
-#campus-stores nav svg {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-}
-#campus-stores .page {
-  padding: 17px 17px 20px;
-  min-width: 0;
-}
-#campus-stores .sectionhead,
-#campus-stores .statusbar {
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
-#campus-stores .sectionhead {
-  margin-bottom: 12px;
-}
-#campus-stores .sectionhead small {
-  margin-top: 2px;
-  display: block;
-}
-#campus-stores .row {
-  border-top: 1px solid var(--line);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 0;
-}
-#campus-stores .row small,
-#campus-stores label span {
-  display: block;
-}
-#campus-stores .tag {
-  background: var(--desk);
-  color: var(--quiet);
-  font-size: 12px;
-  padding: 3px 7px;
-  border-radius: 5px;
-  display: inline-block;
-}
-#campus-stores .good {
-  background: var(--ok);
-  color: var(--oktxt);
-}
-#campus-stores .record {
-  margin-top: 14px;
-  padding: 12px 13px;
-  background: var(--desk);
-  border-left: 3px solid var(--sel);
-}
-#campus-stores .record p {
-  margin-top: 5px;
-}
-#campus-stores .buttons {
-  flex-wrap: wrap;
-  margin: 10px 0;
-}
-#campus-stores .buttons button[aria-pressed="true"] {
-  background: var(--sel);
-  color: var(--inv);
-}
-#campus-stores .buttons label {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-}
-#campus-stores .form {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 10px 0;
-}
-#campus-stores .form label {
-  font-size: 13px;
-  font-weight: 600;
-  min-width: 0;
-}
-#campus-stores .form label span {
-  margin-bottom: 3px;
-}
+
 #campus-stores .form :is(select, input, textarea) {
   width: 100%;
   font-weight: 400;
 }
+
 #campus-stores .full {
   grid-column: 1/-1;
 }
+
 #campus-stores textarea {
   resize: vertical;
 }
+
+/* --------------------------------------------------------------------------
+   13. Toast Notifications & Statusbar
+   -------------------------------------------------------------------------- */
 #campus-stores .statusbar {
-  background: var(--desk);
-  border-top: 1px solid var(--line);
-  padding: 8px 16px;
-  color: var(--quiet);
-  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-2) var(--space-5);
+  background: var(--bg-sunken);
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
-#campus-stores .statusbar span {
-  flex: 1 1 160px;
-}
+
 #campus-stores .statusbar button {
-  font-size: 12px;
+  font-size: var(--text-xs);
   background: transparent;
+  padding: 4px 8px;
 }
-@container (max-width:650px) {
+
+#campus-stores .toast-region {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  pointer-events: none;
+  max-width: min(420px, calc(100vw - 32px));
+}
+
+#campus-stores .toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg-surface);
+  color: var(--text-main);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--text-sm);
+  animation: toast-entrance 200ms ease;
+}
+
+#campus-stores .toast-item.toast-success {
+  border-left: 4px solid var(--ok-text);
+}
+
+#campus-stores .toast-item.toast-danger {
+  border-left: 4px solid var(--danger-text);
+}
+
+#campus-stores .toast-undo-btn {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-xs);
+  background: var(--accent-base);
+  color: var(--text-inverse);
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+#campus-stores .toast-undo-btn:hover {
+  background: var(--accent-hover);
+}
+
+@keyframes toast-entrance {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Empty State Styling */
+#campus-stores .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: var(--space-8) var(--space-4);
+  color: var(--text-muted);
+  gap: var(--space-2);
+}
+
+#campus-stores .empty-state svg {
+  width: 36px;
+  height: 36px;
+  color: var(--border-strong);
+  margin-bottom: var(--space-1);
+}
+
+/* --------------------------------------------------------------------------
+   14. Responsive Layouts & Container Queries
+   -------------------------------------------------------------------------- */
+@container (max-width: 680px) {
   #campus-stores .shell {
     grid-template-columns: minmax(0, 1fr);
   }
+
   #campus-stores nav {
     border-right: 0;
-    border-bottom: 1px solid var(--line);
+    border-bottom: 1px solid var(--border-subtle);
     flex-direction: row;
     flex-wrap: wrap;
-    padding: 7px;
+    padding: var(--space-2);
+    gap: var(--space-1);
   }
+
   #campus-stores nav button {
-    gap: 4px;
-    padding: 5px 7px;
+    flex: 1 1 140px;
+    padding: 6px 8px;
+    font-size: var(--text-xs);
   }
-  #campus-stores .shift {
-    flex-wrap: wrap;
+
+  #campus-stores .loan-ticket {
+    grid-template-columns: minmax(0, 1fr);
   }
+
+  #campus-stores .ticket-stub {
+    border-right: none;
+    border-bottom: 1px dashed var(--border-default);
+    flex-direction: row;
+    justify-content: space-between;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  #campus-stores .ticket-actions {
+    border-left: none;
+    border-top: 1px solid var(--border-subtle);
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  #campus-stores .kit-item-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-2);
+  }
+
   #campus-stores .page {
-    padding: 14px 12px;
-  }
-  #campus-stores .mast {
-    padding: 12px;
-  }
-  #campus-stores .examstrip,
-  #campus-stores .shift {
-    padding: 9px 12px;
+    padding: var(--space-3);
   }
 }
-@container (max-width:420px) {
+
+@container (max-width: 440px) {
   #campus-stores .form {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  #campus-stores .mast {
+    padding: var(--space-3);
+  }
+
   #campus-stores .brandmark {
     display: none;
   }
-  #campus-stores .row {
-    gap: 5px;
+
+  #campus-stores .shift-details {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #campus-stores .shift-advance-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  #campus-stores .request-card {
+    grid-template-columns: minmax(0, 1fr);
   }
 }
+
 @media (pointer: coarse) {
   #campus-stores button,
-  #campus-stores select {
+  #campus-stores select,
+  #campus-stores nav button {
     min-height: 44px;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   15. Motion Accessibility
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  #campus-stores * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   16. Print Stylesheet (Clean Pick Slips)
+   -------------------------------------------------------------------------- */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+  }
+
+  #campus-stores {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  #campus-stores .examstrip,
+  #campus-stores .shift,
+  #campus-stores .outstanding-strip,
+  #campus-stores nav,
+  #campus-stores .statusbar,
+  #campus-stores .toast-region,
+  #campus-stores button {
+    display: none !important;
+  }
+
+  #campus-stores .shell {
+    grid-template-columns: 1fr !important;
+  }
+
+  #campus-stores .page {
+    padding: 0 !important;
+  }
+
+  #campus-stores .kit-builder,
+  #campus-stores .pick-slip-summary {
+    border: 1px solid #000000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  #campus-stores .bin-chip {
+    border: 1px solid #000000 !important;
+    background: #ffffff !important;
+    color: #000000 !important;
   }
 }
